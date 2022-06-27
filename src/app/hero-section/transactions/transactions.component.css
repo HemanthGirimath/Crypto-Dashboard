@@ -1,0 +1,11 @@
+
+.mat-table{
+    background-color: black;
+    
+}
+th.mat-header-cell{
+    color: red;
+}
+ td.mat-cell, td.mat-footer-cell{
+    color: white;
+}

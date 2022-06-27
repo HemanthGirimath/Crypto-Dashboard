@@ -1,0 +1,35 @@
+.mat-card{
+    width: 300px; 
+    height:100%;
+}
+
+.card-1{
+    color: white;
+    background: rgb(27,26,31);
+    background: linear-gradient(38deg, rgba(27,26,31,1) 67%, rgba(175,105,36,1) 130%);
+    border-radius: 30px;
+}
+.card-2{
+    color: white;
+    background: rgb(30,31,36);
+    background: linear-gradient(38deg, rgba(30,31,36,1) 67%, rgba(51,133,51,1) 130%);
+    border-radius: 30px;
+}
+.card-3{
+    color: white;
+    background: rgb(30,31,36);
+    background: linear-gradient(38deg, rgba(30,31,36,1) 67%, rgba(255,255,255,1) 130%);
+    border-radius: 30px;
+}
+
+
+.mat-table{
+    background-color: black;
+    
+}
+th.mat-header-cell{
+    color: red;
+}
+ td.mat-cell, td.mat-footer-cell{
+    color: white;
+}

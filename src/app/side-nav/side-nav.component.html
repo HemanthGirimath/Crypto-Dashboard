@@ -1,0 +1,37 @@
+<div class=" h-4/6 flex flex-col items-center text-white mt-16">
+    <div class="wallet flex flex-col items-center mb-16">
+       <div class="">
+        <span class="text-4xl font-semibold uppercase"> Wallet </span>
+       </div>
+        <div>
+            <img class="w-20 h-20 self-center" src="assets/nav-logos/profile.png" alt="">
+        </div>
+       <div>
+        <span class="text-2xl font-medium uppercase">Hemant</span>
+       </div>
+        <div>
+            <span class="text-Green1">{{walletAddress |shorten}}</span>
+        </div>
+        <div class="btn flex">
+            <div class="pr-5">  <button mat-raised-button color="primary" (click)="login()">Login</button> </div>
+            <div>  <button mat-raised-button color="primary" (click)="logOut()">LogOut</button> </div>
+           
+           
+        </div>
+    </div>
+    <div class="nav_items h-3/5 w-full flex flex-col justify-between cursor-pointer">
+        <div class="flex hover:bg-green-600 p-2" routerLink="/Tokens">
+            <div class="pr-5"><mat-icon aria-hidden="false" aria-label="Example home icon">monetization_on</mat-icon></div>
+            <div><button>Tokens</button></div>
+        </div>
+
+        <div class="flex hover:bg-green-600 p-2" routerLink="/Nfts">
+            <div class="pr-5"><mat-icon aria-hidden="false" aria-label="Example home icon">insert_emoticon</mat-icon></div>
+            <div><button>NFTS</button></div>
+        </div>
+        <div class="flex hover:bg-green-600 p-2" routerLink="Transactions">
+            <div class="pr-5"><mat-icon aria-hidden="false" aria-label="Example home icon">trending_up</mat-icon></div>
+            <div><button>Transactions</button></div>
+        </div>
+    </div>
+</div>

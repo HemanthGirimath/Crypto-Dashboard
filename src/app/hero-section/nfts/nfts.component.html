@@ -1,0 +1,57 @@
+<div class="flex flex-col justify-between p-5">
+    <ng-container *ngIf="clicked ===false">
+        <div class="flex">
+            <div class="mr-16"> <img src="assets/nft-img/punks/5.jpg" alt="img" style="width: 300px; height:300px; border-radius:30px"> </div>
+            <div> 
+                <div class="text-8xl tracking-wide font-medium"><h1> RAZE PUNK</h1></div>
+                <div class="text-4xl pb-10 pt-5"><h1>#. 2</h1></div>
+                <div class="text-4xl flex items-center">
+                    <div>
+                        <img src="assets/eth.png" alt="" style="width: 50px; height:50px">
+                    </div>
+                    <div>
+                        <h1>50</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="clicked === true">
+        <div class="flex">
+            <div class="mr-16"> <img [src]="nftId?.image_url" alt="img" style="width: 300px; height:300px; border-radius:30px"> </div>
+            <div> 
+                <div class="text-8xl tracking-wide font-medium"><h1>{{nftId?.name}}</h1></div>
+                <div class="text-4xl pb-10 pt-5"><h1>#. {{nftId?.token_id}}</h1></div>
+                <div class="text-4xl flex">
+                    <div>
+                        <img src="assets/eth.png" alt="img" style="width: 50px; height:50px">
+                    </div>
+                    <div>
+                        <h1>{{nftId?.traits[0]?.value}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    
+    <div class="container flex overflow-x-auto">
+        <div 
+        class="collectionCard" 
+        *ngFor="let data of nftData"
+        (click)="getClickedData(data)">
+            <img src="{{ data.image_url }}" alt="nf img" >
+            <div class="details">
+                <div class="name">
+                    {{data.name}} 
+                    <div class="id">#. {{data.token_id}}</div>
+                </div>
+            </div>
+        
+            <div class="priceContainer">
+                <img src="assets/eth.png" alt="symbol" class="weithImage">
+                <div class="price">{{data.traits[0]?.value}}</div>
+            </div>
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,31 @@
+<div class="p-14">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 90%; height:100%">
+
+        <ng-container matColumnDef="FROM">
+          <th mat-header-cell *matHeaderCellDef> FROM </th>
+          <td mat-cell *matCellDef="let element"> {{element.from_address |shorten}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="TO">
+          <th mat-header-cell *matHeaderCellDef> TO </th>
+          <td mat-cell *matCellDef="let element"> {{element.to_address | shorten}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="AMT">
+          <th mat-header-cell *matHeaderCellDef> AMT </th>
+          <td mat-cell *matCellDef="let element"> {{element.value/1000000000000000000}} </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="DATE">
+          <th mat-header-cell *matHeaderCellDef> DATE </th>
+          <td mat-cell *matCellDef="let element"> {{element.block_timestamp |date}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      
+</div>
