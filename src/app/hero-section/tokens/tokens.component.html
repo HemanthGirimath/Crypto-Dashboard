@@ -71,16 +71,12 @@
     <form [formGroup]="loginForm" >
         <mat-form-field>
             <mat-select formControlName="selectedValue" >
-                <mat-option (click)="getTokenPrice()" *ngFor="let c of value" [value]="c.viewValue">{{c.value}}</mat-option>
+                <mat-option (click)="TokenPrice()" *ngFor="let c of value" [value]="c.viewValue">{{c.value}}</mat-option>
             </mat-select>
         </mat-form-field>
     </form>
-    <canvas baseChart width="700" height="400"
-    [type]="'line'"
-    [data]="lineChartData"
-    [options]="lineChartOptions"
-    [legend]="lineChartLegend"
-    [plugins]="lineChartPlugins">
+    <canvas id="canvas">
+        {{chart}}
   </canvas>
  </div>
 <!-- Table view goes here -->

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 
 declare var Moralis;
@@ -65,6 +66,19 @@ export class MoralisService {
     const Data = await Moralis.Web3API.account.getTokenTransfers(options);
     // console.log(Data);
     return Data
+  }
+
+  
+  date = new Date()
+  dates:any = Array(Number(6)).fill(this.date).map((e,i)=>moment().subtract(i,"d").format("YYYY-MM-DD")).reverse();
+
+  getdates(){
+     return this.dates
+  }
+  async getBlocks(){
+     const block = (this.dates.map(async(e,i)=> await Moralis.Web3API.native.getDateToBlock({date:e})));
+     const blocks = Promise.all(block);
+     return blocks
   }
  
 }

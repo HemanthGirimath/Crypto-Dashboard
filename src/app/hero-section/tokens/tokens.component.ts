@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { Chart, ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 import { MoralisService } from 'src/app/moralis.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
@@ -25,12 +25,20 @@ export class TokensComponent implements OnInit {
   eth:number;
   sol:number;
 
+  blocks:any;
+  dates:any=[];
+  TokenUsdPrice:any =[]; 
+  usd:any=[];
+
+  chart:any=[];
+
   value:coins[] = [
     {value:'USDT', viewValue:'0xdAC17F958D2ee523a2206206994597C13D831ec7'},
     {value:'BUSD', viewValue:'0xdAC17F958D2ee523a2206206994597C13D831ec7'},
     {value:'SHIB', viewValue:'0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE'},
     {value:'WBTC', viewValue:'0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'},
   ]
+
   loginForm = new FormGroup({
     selectedValue:new FormControl('')
   })
@@ -39,32 +47,9 @@ export class TokensComponent implements OnInit {
     return this.loginForm.get("selectedValue") as FormControl
   }
 
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July'
-    ],
-    datasets: [
-      {
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
-        fill: true,
-        label:'tokens',
-        borderColor:'white',
-      }
-    ]
-  };
-  public lineChartOptions: ChartOptions<'line'> = {
-    responsive: false
-  };
-  public lineChartLegend = true;
-  public lineChartPlugins = [];
 
   constructor(private service:MoralisService) { }
+
 
   async ethUsdPrice(){
     const usdvalue = await this.service.ethPrice();
@@ -94,43 +79,47 @@ export class TokensComponent implements OnInit {
      });
   }
 
+  async TokenPrice(){
+    this.TokenUsdPrice = await Promise.all( await this.blocks.map(async (e,i)=>
+    await Moralis.Web3API.token.getTokenPrice({address:this.selectedValue.value,to_block:e.block})
+  ))  
+    this.filtereTokenPrice();
+  }
 
+  async filtereTokenPrice(){
+    this.usd = await this.TokenUsdPrice.map(item=>item.usdPrice);//get usdprice
+     this.chart.destroy();
+      this.chart = new Chart('canvas',{
+      type:'line',
+     data:{
+      labels:this.service.getdates(),
+      datasets:[
+        {
+          data:this.usd,
+          borderWidth:1,
+          fill:false
+        }
+      ]
+     }
+    })
+    
+  }
   
   displayedColumns: string[] = ['Name','Amt'];
   dataSource : MatTableDataSource<unknown>;
-
-
-  date = new Date()
-  dates:any = Array(Number(7)).fill(this.date).map((e,i)=>moment().subtract(i,"d").format("YYYY-MM-DD")).reverse();
-  
-  async getBlocks(){
-   try{
-    const date = await Promise.all(this.dates.map(async(e,i)=> await Moralis.Web3API.native.getDateToBlock({date:e})))
-    console.log(date);
-   }
-   catch(err){
-   console.log(err)
-   }
-   
-  }
-
-    
-  async getTokenPrice(){
-  const price = await Promise.all(this.dates.map(async (e,i)=>{
-    await Moralis.Web3API.token.getTokenPrice({address:this.selectedValue.value, to_block:e.blocks})
-  }))  
-  }
 
   async ngOnInit() {
     this.walletData = await this.service.getWalletBalance();
      this.service.getWalletBalance().then(data=>{
       this.dataSource = new MatTableDataSource(data)
      })
+
     this.btcUsdPrice();
     this.solUsdPrice();
     this.ethUsdPrice();
-    this.getBlocks();
-    // this.getTokenPrice();
+    this.blocks = await this.service.getBlocks(); 
+
+   
   }
 
 }
