@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Chart, ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
+import { Chart } from 'chart.js';
 import { MoralisService } from 'src/app/moralis.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-import * as moment from 'moment';
+
 
 declare var Moralis;
 Moralis.start({serverUrl:environment.server_url,appId:environment.app_id});
@@ -30,7 +30,7 @@ export class TokensComponent implements OnInit {
   TokenUsdPrice:any =[]; 
   usd:any=[];
 
-  chart:any=[];
+  chart:any;
 
   value:coins[] = [
     {value:'USDT', viewValue:'0xdAC17F958D2ee523a2206206994597C13D831ec7'},
@@ -87,22 +87,7 @@ export class TokensComponent implements OnInit {
   }
 
   async filtereTokenPrice(){
-    this.usd = await this.TokenUsdPrice.map(item=>item.usdPrice);//get usdprice
-     this.chart.destroy();
-      this.chart = new Chart('canvas',{
-      type:'line',
-     data:{
-      labels:this.service.getdates(),
-      datasets:[
-        {
-          data:this.usd,
-          borderWidth:1,
-          fill:false
-        }
-      ]
-     }
-    })
-    
+    this.usd = await this.TokenUsdPrice.map(item=>item.usdPrice);
   }
   
   displayedColumns: string[] = ['Name','Amt'];
@@ -118,8 +103,30 @@ export class TokensComponent implements OnInit {
     this.solUsdPrice();
     this.ethUsdPrice();
     this.blocks = await this.service.getBlocks(); 
-
+    this.dates = this.service.getdates();
    
   }
 
+  ngAfterViewInit(){
+  let data:any,
+    chart:any,
+    ctx:any = document.getElementById('canvas') as HTMLElement;
+
+    data = {
+      lables:['Apples', 'Oranges', 'Mixed Fruit'],
+      datasets:[
+        {
+          label:"Tokens",
+          data:[0, 50, 45, 100]
+        }
+      ]
+    };
+ 
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+    });
+  }
+
 }
+
