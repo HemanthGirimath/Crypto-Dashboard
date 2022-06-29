@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { MoralisService } from 'src/app/moralis.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
+import { FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 
 declare var Moralis;
 Moralis.start({serverUrl:environment.server_url,appId:environment.app_id});
@@ -94,27 +94,43 @@ export class TokensComponent implements OnInit {
      });
   }
 
-  
-  async getTokenPrice(){
-    const options = {
-      address: this.selectedValue.value,      
-    };
-    const price = await Moralis.Web3API.token.getTokenPrice(options);
-    console.log(price);
-  }
+
   
   displayedColumns: string[] = ['Name','Amt'];
   dataSource : MatTableDataSource<unknown>;
+
+
+  date = new Date()
+  dates:any = Array(Number(7)).fill(this.date).map((e,i)=>moment().subtract(i,"d").format("YYYY-MM-DD")).reverse();
+  
+  async getBlocks(){
+   try{
+    const date = await Promise.all(this.dates.map(async(e,i)=> await Moralis.Web3API.native.getDateToBlock({date:e})))
+    console.log(date);
+   }
+   catch(err){
+   console.log(err)
+   }
+   
+  }
+
+    
+  async getTokenPrice(){
+  const price = await Promise.all(this.dates.map(async (e,i)=>{
+    await Moralis.Web3API.token.getTokenPrice({address:this.selectedValue.value, to_block:e.blocks})
+  }))  
+  }
 
   async ngOnInit() {
     this.walletData = await this.service.getWalletBalance();
      this.service.getWalletBalance().then(data=>{
       this.dataSource = new MatTableDataSource(data)
      })
-    // this.specificTokens();
     this.btcUsdPrice();
     this.solUsdPrice();
     this.ethUsdPrice();
+    this.getBlocks();
+    // this.getTokenPrice();
   }
 
 }
