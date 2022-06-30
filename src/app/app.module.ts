@@ -13,7 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { NgChartsModule } from 'ng2-charts';
+// import { NgChartsModule } from 'ng2-charts';
 import { ShortenPipe } from './side-nav/shorten.pipe';
 import { MatTableModule } from '@angular/material/table';
 
@@ -41,7 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    NgChartsModule,
+    // NgChartsModule,
     MatTableModule,
     ReactiveFormsModule,
     FormsModule,

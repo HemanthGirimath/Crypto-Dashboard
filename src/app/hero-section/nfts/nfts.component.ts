@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MoralisService } from 'src/app/moralis.service';
+import { MoralisService } from '../../moralis.service';
 
 @Component({
   selector: 'app-nfts',

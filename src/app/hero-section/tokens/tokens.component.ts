@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Chart } from 'chart.js';
-import { MoralisService } from 'src/app/moralis.service';
+import { MoralisService } from '../../moralis.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
+
 
 
 declare var Moralis;
