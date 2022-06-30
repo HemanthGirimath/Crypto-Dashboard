@@ -69,14 +69,14 @@
  <!-- Grahp view goes here -->
  <div class="col-span-3 row-span-4 pl-20">
     <form [formGroup]="loginForm" >
-        <mat-form-field>
+        <mat-form-field appearance="fill" aria-placeholder="BTC">
             <mat-select formControlName="selectedValue" >
                 <mat-option (click)="TokenPrice()" *ngFor="let c of value" [value]="c.viewValue">{{c.value}}</mat-option>
             </mat-select>
         </mat-form-field>
     </form>
-    <div style="height: 80%;">
-        <canvas id="canvas"></canvas>
+    <div>
+        <canvas id="canvas" width="600px" height="250px"></canvas>
     </div>
  </div>
 <!-- Table view goes here -->
