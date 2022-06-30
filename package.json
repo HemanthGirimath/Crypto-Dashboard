@@ -23,7 +23,6 @@
     "chart.js": "^3.8.0",
     "cryptocurrency-icons": "^0.18.0",
     "moment": "^2.29.3",
-    "ng2-charts": "^3.0.11",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
