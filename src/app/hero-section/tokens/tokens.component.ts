@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Chart } from 'chart.js';
 import { MoralisService } from 'src/app/moralis.service';
@@ -18,7 +18,9 @@ interface coins {
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.css']
 })
-export class TokensComponent implements OnInit {
+
+
+export class TokensComponent implements OnInit,AfterViewInit {
   walletData:any
   specialTokens:any
   btc:number;
@@ -30,7 +32,7 @@ export class TokensComponent implements OnInit {
   TokenUsdPrice:any =[]; 
   usd:any=[];
 
-  chart:any;
+  @ViewChild('canvas') chart:any ;
 
   value:coins[] = [
     {value:'USDT', viewValue:'0xdAC17F958D2ee523a2206206994597C13D831ec7'},
@@ -87,7 +89,22 @@ export class TokensComponent implements OnInit {
   }
 
   async filtereTokenPrice(){
-    this.usd = await this.TokenUsdPrice.map(item=>item.usdPrice);
+    this.usd = await this.TokenUsdPrice.map(item=>item.usdPrice);//get usdprice
+    this.chart.destroy();
+    this.chart = new Chart('canvas',{
+      type:'line',
+     data:{
+      labels:this.service.getdates(),
+      datasets:[
+        {
+          data:this.usd,
+          borderWidth:1,
+          fill:false
+        }
+      ]
+     }
+    })
+    
   }
   
   displayedColumns: string[] = ['Name','Amt'];
@@ -108,25 +125,7 @@ export class TokensComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-  let data:any,
-    chart:any,
-    ctx:any = document.getElementById('canvas') as HTMLElement;
-
-    data = {
-      lables:['Apples', 'Oranges', 'Mixed Fruit'],
-      datasets:[
-        {
-          label:"Tokens",
-          data:[0, 50, 45, 100]
-        }
-      ]
-    };
- 
-    chart = new Chart(ctx, {
-      type: 'line',
-      data: data,
-    });
-  }
-
+  
 }
 
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MoralisService } from 'src/app/moralis.service';
 
 @Component({
@@ -6,11 +6,12 @@ import { MoralisService } from 'src/app/moralis.service';
   templateUrl: './nfts.component.html',
   styleUrls: ['./nfts.component.css']
 })
-export class NftsComponent implements OnInit {
+export class NftsComponent implements OnInit{
   nftData:any
   nftId:any
   clicked:boolean = false
   constructor(private service:MoralisService) { }
+
 
   getdata(){
     fetch('https://testnets-api.opensea.io/api/v1/assets?asset_contract_address=0xa41B58Adcd09C7555941Ad2c8eA8e0a10F2Fa425&order_direction=asc&offset=0&limit=6')
