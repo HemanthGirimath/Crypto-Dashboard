@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Chart } from 'chart.js';
+import Chart from 'chart.js/auto';
 import { MoralisService } from '../../moralis.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Form, FormControl, FormGroup } from '@angular/forms';
 import { environment } from '../../../environments/environment';
 
 
@@ -91,16 +91,20 @@ export class TokensComponent implements OnInit,AfterViewInit {
 
   async filtereTokenPrice(){
     this.usd = await this.TokenUsdPrice.map(item=>item.usdPrice);//get usdprice
-    this.chart.destroy();
+    if(this.chart != null){
+      this.chart.destroy();
+   };
     this.chart = new Chart('canvas',{
       type:'line',
      data:{
       labels:this.service.getdates(),
       datasets:[
         {
+          label:"Histroic Price Data",
           data:this.usd,
-          borderWidth:1,
-          fill:false
+          borderWidth:2,
+          fill:false,
+          borderColor: 'rgb(75, 192, 192)',
         }
       ]
      }
@@ -126,6 +130,7 @@ export class TokensComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(){
+    
   
 }
 
